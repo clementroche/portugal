@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav-bar></nav-bar>
+    <!-- <nav-bar></nav-bar> -->
     <div class="main-wrapper">
       <router-view />
     </div>
@@ -39,6 +39,9 @@ export default {
 </script>
 
 <style lang="scss">
+* {
+  box-sizing: border-box;
+}
 body {
   margin: 0;
 

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Head from 'vue-head'
 import Home from '@/views/Home'
+import Defi from '@/views/Defi'
 import CheckLogin from '@/views/CheckLogin'
 import { isNil } from 'lodash'
 import store from '@/store'
@@ -21,7 +22,7 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/home',
+      path: '/',
       name: 'home',
       component: Home,
       meta: {
@@ -29,36 +30,44 @@ const router = new Router({
       }
     },
     {
-      path: '/check-login',
-      name: 'check-login',
-      component: CheckLogin,
+      path: '/defi',
+      name: 'defi',
+      component: Defi,
       meta: {
         authNotRequired: true
       }
     },
-    {
-      path: '/login',
-      name: 'login',
-      component: () =>
-        import(/* webpackChunkName: "client-chunk-login" */ '@/views/Login.vue'),
-      meta: {
-        authNotRequired: true
-      }
-    },
-    {
-      path: '/products',
-      name: 'products',
-      component: () =>
-        import(/* webpackChunkName: "client-chunk-products" */ '@/views/Products.vue')
-    },
-    {
-      path: '/products/:id',
-      name: 'product',
-      props: true,
-      component: () =>
-        import(/* webpackChunkName: "client-chunk-product-details" */ '@/views/Product.vue')
-    },
-    { path: '*', redirect: '/home' }
+    // {
+    //   path: '/check-login',
+    //   name: 'check-login',
+    //   component: CheckLogin,
+    //   meta: {
+    //     authNotRequired: true
+    //   }
+    // },
+    // {
+    //   path: '/login',
+    //   name: 'login',
+    //   component: () =>
+    //     import(/* webpackChunkName: "client-chunk-login" */ '@/views/Login.vue'),
+    //   meta: {
+    //     authNotRequired: true
+    //   }
+    // },
+    // {
+    //   path: '/products',
+    //   name: 'products',
+    //   component: () =>
+    //     import(/* webpackChunkName: "client-chunk-products" */ '@/views/Products.vue')
+    // },
+    // {
+    //   path: '/products/:id',
+    //   name: 'product',
+    //   props: true,
+    //   component: () =>
+    //     import(/* webpackChunkName: "client-chunk-product-details" */ '@/views/Product.vue')
+    // },
+    { path: '*', redirect: '/' }
   ]
 })
 

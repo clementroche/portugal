@@ -1,37 +1,47 @@
 <template>
   <div class="page-wrapper">
-    <h1 class="home-page-title">{{ appTitle }}</h1>
-    <img alt="logo-bento" class="logo" src="@/assets/img/bento-starter.svg" />
-
-    <a
-      rel="noopener"
-      class="documentation-link"
-      target="_blank"
-      href="https://bento-starter.netlify.com/"
-      >Documentation →</a
-    >
+    <div v-if="currentDefi" class="abs">
+      <div>{{ currentDefi.intitule }} - {{ currentDefi.to }}</div>
+      </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import DefisDB from '@/firebase/defis-db'
 
 export default {
-  head: function() {
+  data(){
     return {
-      title: {
-        inner: 'Home'
-      },
-      meta: [
-        {
-          name: 'description',
-          content: `${this.appTitle} home page`,
-          id: 'desc'
-        }
-      ]
+      defis: []
     }
   },
-  computed: mapState('app', ['appTitle'])
+  methods: {
+    async getDefis() {
+      const defisDb = new DefisDB()
+
+      this.defis = await defisDb.readAll()
+      this.defis.forEach((defi)=> {
+          defi.createTimestamp = Date.parse(defi.createTimestamp)
+      })
+    }
+  },
+  computed: {
+    defisByDate() {
+      return this.defis.sort((a,b)=>{
+        return b.createTimestamp - a.createTimestamp
+      })
+    },
+    currentDefi() {
+      return this.defisByDate[0] || null
+    }
+  },
+  mounted() {
+    this.getDefis()
+    setInterval(() => {
+      this.getDefis()
+    }, 5000);
+  }
 }
 </script>
 
@@ -64,6 +74,19 @@ export default {
     text-decoration: none;
     width: fit-content;
     font-weight: 500;
+  }
+}
+
+.abs {
+  position: absolute;
+  top:0px;
+  height: 0px;
+  width:100vw;
+  height: 100vh;
+  display: flex;
+  div {
+    margin: auto;
+    font-size: 5vw;
   }
 }
 </style>
